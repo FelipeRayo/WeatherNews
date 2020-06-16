@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace WeatherNews.DTO
 {
@@ -16,25 +13,33 @@ namespace WeatherNews.DTO
         public float Temperature { get; set; }
 
         [JsonProperty("weather_descriptions")]
-        public  IEnumerable<string> WeatherDescription { get; set; }
+        public IEnumerable<string> WeatherDescription { get; set; }
 
         [JsonProperty("wind_speed")]
         public float WindSpeed { get; set; }
 
+        [JsonProperty("wind_degree")]
+        public float WindDegree { get; set; }
 
+        [JsonProperty("pressure")]
+        public int Pressure { get; set; }
 
- //"wind_degree": 349,
- //"wind_dir": "N",
- //"pressure": 1010,
- //"precip": 0,
- //"humidity": 90,
- //"cloudcover": 0,
- //"feelslike": 13,
- //"uv_index": 4,
- //"visibility": 16
+        [JsonProperty("precip")]
+        public int Precipitation { get; set; }
 
-        
+        [JsonProperty("humidity")]
+        public int Humidity { get; set; }
 
+        [JsonProperty("cloudcover")]
+        public int Cloudcover { get; set; }
 
+        [JsonProperty("feelslike")]
+        public float FeelsLike { get; set; }
+
+        [JsonProperty("visibility")]
+        public int Visibility { get; set; }
+
+        [JsonProperty("city")]
+        public string City { get; set; }
     }
 }

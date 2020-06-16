@@ -1,8 +1,12 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using WeatherNews.Repositories;
 using WeatherNews.Services;
 using WeatherNews.Services.ExternalServices;
 
@@ -22,8 +26,19 @@ namespace WeatherNews
         {
             services.AddControllers();
 
-            services.AddSingleton<WeatherNewsService>();
             services.AddSingleton<ApiExternalService>();
+            services.AddSingleton<HistoryRepository>();
+            services.AddSingleton<WeatherNewsService>();
+            services.AddDbContext<DataContext>(opt =>
+                opt.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]), ServiceLifetime.Singleton);
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Rest WeatherNews", Version = "v1" });
+
+            });
 
         }
 
@@ -36,6 +51,13 @@ namespace WeatherNews
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api Rest WeatherNews");
+            });
 
             app.UseRouting();
 
